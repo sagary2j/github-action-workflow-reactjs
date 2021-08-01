@@ -1,0 +1,82 @@
+:root {
+  --drop-height: 50vh;
+  --logo-size: 120px;
+  --offset: -25vh;
+  --shadow-height: 8px;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+header {
+  position: relative;
+  margin: auto;
+}
+
+header .logo {
+  position: absolute;
+  top: var(--offset);
+  left: calc(50% - var(--logo-size) / 2);
+  pointer-events: none;
+
+  animation-name: bounce; 
+  animation-duration: 1s;
+  animation-direction: alternate;
+  animation-timing-function: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  animation-iteration-count: infinite;
+}
+
+header .shadow {
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(
+    50% 50%,
+    rgba(150, 150, 150, 1),
+    rgba(150, 150, 150, 0.05)
+  );
+  position: absolute;
+  top: calc(
+    var(--offset) + 
+    var(--drop-height) + 
+    var(--logo-size) - 
+    1.5 * var(--shadow-height)
+  );
+  left: calc(50% - var(--logo-size) / 2);
+
+  animation-name: grow;
+  animation-duration: 1s;
+  animation-direction: alternate;
+  animation-timing-function: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  animation-iteration-count: infinite;
+}
+
+footer {
+  margin: 1em 0;
+}
+
+footer a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@keyframes bounce {
+  from { 
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  to   { 
+    transform: translateY(var(--drop-height)) scale(1, 0.7) rotate(360deg);
+  }
+}
+
+@keyframes grow {
+  from {
+    transform: scale(0.2, 0.5);
+  }
+  to {
+    transform: scale(1.5, 0.8);
+  }
+}
