@@ -18,3 +18,11 @@ jobs:
           import platform
           print(platform.processor())
         shell: python
+  run-windows-commands:
+    runs-on: windows-2019
+    steps:
+      - name: Powershell Directory
+        run: Get-Location
+      - name: Directory Bash
+        run: pwd
+        shell: powershell
