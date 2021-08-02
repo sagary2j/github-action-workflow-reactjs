@@ -20,6 +20,7 @@ jobs:
         shell: python
   run-windows-commands:
     runs-on: windows-2019
+    needs: ['run-shell-command']
     steps:
       - name: Powershell Directory
         run: Get-Location
