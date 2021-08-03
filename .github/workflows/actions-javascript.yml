@@ -1,7 +1,9 @@
 name: Java-Script Action flow
 
 on:
-  push:
+  schedule:
+    - cron: "*/5 * * * *"
+  #push:
   pull_request:
     types:
       - closed
