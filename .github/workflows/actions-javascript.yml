@@ -11,7 +11,7 @@ jobs:
           pwd
           ls -a
           echo $GITHUB_SHA
-          echo $GUTHUB_REPOSITORY
+          echo $GITHUB_REPOSITORY
           echo $GITHUB_WORKSPACE
           echo "${{ github.token }}"
       - name: Checkout
