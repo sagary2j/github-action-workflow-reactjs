@@ -1,6 +1,13 @@
 name: Java-Script Action flow
 
-on: [push]
+on:
+  push:
+  pull_request:
+    types:
+      - closed
+      - assigned
+      - opened
+      - reopened
 
 jobs:
   run-github-actions:
