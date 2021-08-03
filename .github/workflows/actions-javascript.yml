@@ -10,10 +10,12 @@ jobs:
         run: |
           pwd
           ls -a
+          ### Environment Variables ###
           echo $GITHUB_SHA
           echo $GITHUB_REPOSITORY
           echo $GITHUB_WORKSPACE
           echo "${{ github.token }}"
+          #############################
       - name: Checkout
         uses: actions/checkout@v1
       - name: list files after Checkout
