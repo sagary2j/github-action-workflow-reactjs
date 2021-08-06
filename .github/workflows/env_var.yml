@@ -18,8 +18,8 @@ jobs:
           ls -la
           git init
           git remote add origin "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/${{ github.repository }}.git"
-          git config --global user.email "my-bot@bot.com"
-          git config --global user.name "my-bot"
+          git config --global user.email "sagar.rav89@gmail.com"
+          git config --global user.name "Sagar R"
           git fetch
           git checkout master
           git branch --set-upstream-to=origin/master
