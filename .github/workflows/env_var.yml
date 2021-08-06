@@ -37,7 +37,7 @@ jobs:
           echo "GITHUB ACTION_PATH: ${GITHUB_ACTION_PATH}"
           echo "GITHUB REPOSITORY: ${GITHUB_REPOSITORY}"
           echo "GITHUB WORKSPACE: ${GITHUB_WORKSPACE}"
-          echo "GITHUB TOKEN: ${secrets.WF_TOKEN}"
+          echo "GITHUB TOKEN: ${{secrets.WF_TOKEN}}"
           echo "WF_ENV: ${WF_ENV}"
           echo "WF_ENV: ${JOB_ENV}"
           echo "WF_ENV: ${STEP_ENV}"
