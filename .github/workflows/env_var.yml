@@ -3,6 +3,8 @@ name: Environment variables workflow
 on: [push]
 env:
   WF_ENV: "Available to all workflow"
+  WF_SECRET: "${{ secrets.WF_SECRET }}"
+  WF_TOKEN: "${{ secrets.WF_TOKEN }}"
 
 jobs:
   log-env:
