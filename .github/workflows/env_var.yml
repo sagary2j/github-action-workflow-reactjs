@@ -1,0 +1,43 @@
+name: Environment variables workflow
+  
+on: [push]
+env:
+  WF_ENV: "Available to all workflow"
+
+jobs:
+  log-env:
+    runs-on: ubuntu-18.04
+    env:
+      JOB_ENV: "Available to Job Log ENV"
+    steps:
+      - name: LOG ENV Variables
+        env:
+          STEP_ENV: "Available to only This Step"
+        run: |
+          echo "WF_ENV: ${WF_ENV}"
+          echo "WF_ENV: ${JOB_ENV}"
+          echo "WF_ENV: ${STEP_ENV}"
+      - name: Log Env Step 2
+        run: |
+          echo "WF_ENV: ${WF_ENV}"
+          echo "WF_ENV: ${JOB_ENV}"
+          echo "WF_ENV: ${STEP_ENV}"
+  
+  log-default-env:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Default ENV Variables
+        run: |
+          echo "HOME: ${HOME}"
+          echo "GITHUB WORKFLOW: ${GITHUB_WORKFLOW}"
+          echo "GITHUB WORKFLOW: ${GITHUB_ACTION}"
+          echo "GITHUB WORKFLOW: ${GITHUB_ACTIONS}"
+          echo "GITHUB WORKFLOW: ${GITHUB_ACTION_PATH}"
+          echo "GITHUB WORKFLOW: ${GITHUB_REPOSITORY}"
+          echo "GITHUB WORKFLOW: ${GITHUB_WORKSPACE}"
+          echo "WF_ENV: ${WF_ENV}"
+          echo "WF_ENV: ${JOB_ENV}"
+          echo "WF_ENV: ${STEP_ENV}"
+          
+          
+            

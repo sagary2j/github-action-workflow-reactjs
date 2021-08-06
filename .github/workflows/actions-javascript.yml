@@ -1,8 +1,28 @@
 name: Java-Script Action flow
 
 on:
-  repository_dispatch:
-    types: [build]
+  # push:
+  #   branches:
+  #     - "master"
+  #     - 'feature/*' # matches branches like feature/B1 or feature/B2 but not feature/B/A1
+  #     - 'feature/**' # matches branched like feature/A/B
+  #     - '!feature/featA' # to ignore the branch
+  #   # branches-ignore:
+  #   #   - ""
+  #   tags:
+  #     - v1.*
+  #   # tags-ignore:
+  #   #   - ""
+  #   paths:
+  #     - '**.js'
+  #     - '!filename.js'
+  #   # paths-ignore:
+    #   - ""
+
+
+  # repository_dispatch:
+  #   types: [build]
+    
   # schedule:
   #   - cron: "*/5 * * * *"
   #push:
