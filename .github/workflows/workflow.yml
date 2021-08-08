@@ -47,6 +47,7 @@ jobs:
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v2
+
       - name: 'Terraform Init'
         uses: hashicorp/terraform-github-actions@master
         with:
@@ -54,9 +55,17 @@ jobs:
           tf_actions_subcommand: 'init'
           tf_actions_working_dir: './terraform/'
           tf_actions_comment: true
+          args: '-var-file="dev.tfvars"'
         env:
           TF_WORKSPACE: dev
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 'Terraform Plan'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: 'plan'
+          tf_actions_working_dir: './terraform/'
 
   cd:
     name: "Deployment"
