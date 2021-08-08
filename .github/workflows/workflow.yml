@@ -25,12 +25,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          
+
       - name: Install dependencies
         run: yarn
 
       - name: Run the tests
-        run: npm test
+        run: yarn test
       # - name: "Lint code"
       #   run: |
       #     echo "Linting repository"
