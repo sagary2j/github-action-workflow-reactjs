@@ -1,4 +1,5 @@
 name: matrix
+on: [push]
 
 jobs:
   node-version:
