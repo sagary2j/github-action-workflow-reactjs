@@ -34,11 +34,9 @@ jobs:
       
       - name: Build
         run: yarn build
-
-  linter:
-    runs-on: ubuntu-latest
-    steps:
+      
       - name: Lint Dockerfile
         uses: brpaz/hadolint-action@master
         with:
           dockerfile: "Dockerfile"
+      
