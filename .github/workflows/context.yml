@@ -1,0 +1,45 @@
+name: CONTEXT
+on: [push, pull_request]
+
+jobs:
+  functions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump
+        run: |
+          echo ${{ contains('Hello world', 'llo') }}
+          echo ${{ startsWith('Hello world', 'He') }}
+          echo ${{ startsWith('Hello world', 'He') }}
+          echo ${{ format('Hello {0} {1} {2}', 'Mona', 'the', 'Octocat') }}
+          echo ${{ join(github.event.issue.labels.*.name, ', ') }}
+          
+  context-workflow:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: eccho "$GITHUB_CONTEXT"
+      - name: Dump job context
+        if: failure()
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        if: always()
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"

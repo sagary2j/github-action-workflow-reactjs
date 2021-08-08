@@ -1,0 +1,94 @@
+name: Environment variables workflow
+  
+on: [push]
+env:
+  WF_ENV: "Available to all workflow"
+  WF_SECRET: "${{ secrets.WF_SECRET }}"
+  WF_TOKEN: "${{ secrets.WF_TOKEN }}"
+
+jobs:
+  decrypt-file:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Decrypt File
+        run: |
+          gpg --quiet --batch --yes --decrypt --passphrase="$PASSPHRASE" --output $HOME/my_secret.json filesec.json.gpg
+        env:
+          PASSPHRASE: "${{ secrets.WF_PASSPHRASE }}"
+      - name: Test printing your secret (Remove this step in production)
+        run: cat $HOME/my_secret.json
+
+  create_issue:
+    runs-on: ubuntu-latest 
+    permissions:
+      issues: write 
+    steps:
+      # - name: Push a random file
+      #   run: |
+      #     pwd
+      #     ls -la
+      #     git init
+      #     git remote add origin "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/${{ github.repository }}.git"
+      #     git config --global user.email "sagar.rav89@gmail.com"
+      #     git config --global user.name "Sagar R"
+      #     git fetch
+      #     git checkout master
+      #     git branch --set-upstream-to=origin/master
+      #     git pull
+      #     ls -la
+      #     echo $RANDOM >> random.txt
+      #     ls -a
+      #     git add -A
+      #     git commit -m "Random file"
+      #     git push
+
+      - name: Create issue using REST API
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/issues \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "title": "Automated issue for commit: ${{ github.sha }}",
+            "body": "This issue was automatically created by the GitHub Action workflow **${{ github.workflow }}**. \n\n The commit hash was: _${{ github.sha }}_."
+            }' \
+          --fail
+
+  log-env:
+    runs-on: ubuntu-18.04
+    env:
+      JOB_ENV: "Available to Job Log ENV"
+    steps:
+      - name: LOG ENV Variables
+        env:
+          STEP_ENV: "Available to only This Step"
+        run: |
+          echo "WF_ENV: ${WF_ENV}"
+          echo "WF_ENV: ${JOB_ENV}"
+          echo "WF_ENV: ${STEP_ENV}"
+      - name: Log Env Step 2
+        run: |
+          echo "WF_ENV: ${WF_ENV}"
+          echo "WF_ENV: ${JOB_ENV}"
+          echo "WF_ENV: ${STEP_ENV}"
+  
+  log-default-env:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Default ENV Variables
+        run: |
+          echo "HOME: ${HOME}"
+          echo "GITHUB WORKFLOW: ${GITHUB_WORKFLOW}"
+          echo "GITHUB ACTION: ${GITHUB_ACTION}"
+          echo "GITHUB ACTIONS: ${GITHUB_ACTIONS}"
+          echo "GITHUB ACTION_PATH: ${GITHUB_ACTION_PATH}"
+          echo "GITHUB REPOSITORY: ${GITHUB_REPOSITORY}"
+          echo "GITHUB WORKSPACE: ${GITHUB_WORKSPACE}"
+          echo "GITHUB TOKEN: ${{secrets.WF_TOKEN}}"
+          echo "WF_ENV: ${WF_ENV}"
+          echo "WF_ENV: ${JOB_ENV}"
+          echo "WF_ENV: ${STEP_ENV}"
+          
+          
+            
