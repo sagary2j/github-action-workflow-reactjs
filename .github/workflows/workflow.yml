@@ -48,50 +48,50 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 0.14.6
-
-      - name: Terraform Fmt
-        id: fmt
-        run: |
-          cd ${GITHUB_REPOSITORY}/terraform/
-          terraform fmt -check -diff
-        continue-on-error: true
-
-      - name: Terraform Init
-        id: init
-        run: |
-          cd ${GITHUB_REPOSITORY}/terraform/
-          terraform init
-        continue-on-error: true
-
-      - name: Terraform Validate
-        id: validate
-        run: |
-          cd ${GITHUB_REPOSITORY}/terraform/
-          terraform validate -no-color
-        continue-on-error: true
-
-      - name: Terraform Plan
-        id: plan
-        run: |
-          cd ${GITHUB_REPOSITORY}/terraform/
-          terraform plan -no-color
-        continue-on-error: true
-
-      # - name: 'Terraform Init'
-      #   uses: hashicorp/terraform-github-actions@master
+      # - name: Setup Terraform
+      #   uses: hashicorp/setup-terraform@v1
       #   with:
-      #     tf_actions_version: 0.12.13
-      #     tf_actions_subcommand: 'init'
-      #     tf_actions_working_dir: '${GITHUB_REPOSITORY}/terraform/'
-      #     tf_actions_comment: true
-      #     args: '-var-file="dev.tfvars"'
-      #   env:
-      #     TF_WORKSPACE: dev
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     terraform_version: 0.14.6
+
+      # - name: Terraform Fmt
+      #   id: fmt
+      #   run: |
+      #     cd ${GITHUB_REPOSITORY}/terraform/
+      #     terraform fmt -check -diff
+      #   continue-on-error: true
+
+      # - name: Terraform Init
+      #   id: init
+      #   run: |
+      #     cd ${GITHUB_REPOSITORY}/terraform/
+      #     terraform init
+      #   continue-on-error: true
+
+      # - name: Terraform Validate
+      #   id: validate
+      #   run: |
+      #     cd ${GITHUB_REPOSITORY}/terraform/
+      #     terraform validate -no-color
+      #   continue-on-error: true
+
+      # - name: Terraform Plan
+      #   id: plan
+      #   run: |
+      #     cd ${GITHUB_REPOSITORY}/terraform/
+      #     terraform plan -no-color
+      #   continue-on-error: true
+
+      - name: 'Terraform Init'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: 'init'
+          tf_actions_working_dir: 'terraform'
+          tf_actions_comment: true
+          args: '-var-file="dev.tfvars"'
+        env:
+          TF_WORKSPACE: dev
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       # - name: 'Terraform Plan'
       #   uses: hashicorp/terraform-github-actions@master
