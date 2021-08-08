@@ -2,7 +2,18 @@ name: CONTEXT
 on: push
 
 jobs:
-  one:
+  functions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump
+        run: |
+          contains('Hello world', 'llo')
+          startsWith('Hello world', 'He')
+          startsWith('Hello world', 'He')
+          format('Hello {0} {1} {2}', 'Mona', 'the', 'Octocat')
+          join(github.event.issue.labels.*.name, ', ')
+          
+  context-workflow:
     runs-on: ubuntu-latest
     steps:
       - name: Dump GitHub context
