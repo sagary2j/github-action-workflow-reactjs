@@ -13,7 +13,7 @@ name: "workflow"
 
 jobs:
   ci:
-    name: "Integration"
+    name: "CI Integration"
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
@@ -34,9 +34,11 @@ jobs:
       
       - name: Build
         run: yarn build
-      # - name: "Lint code"
-      #   run: |
-      #     echo "Linting repository"
-      # - name: "Run unit tests"
-      #   run: |
-      #     echo "Running unit tests"
+
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lint Dockerfile
+        uses: brpaz/hadolint-action@master
+        with:
+          dockerfile: "Dockerfile"
