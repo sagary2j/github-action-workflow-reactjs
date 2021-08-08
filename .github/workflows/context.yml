@@ -7,11 +7,11 @@ jobs:
     steps:
       - name: Dump
         run: |
-          contains('Hello world', 'llo')
-          startsWith('Hello world', 'He')
-          startsWith('Hello world', 'He')
-          format('Hello {0} {1} {2}', 'Mona', 'the', 'Octocat')
-          join(github.event.issue.labels.*.name, ', ')
+          echo ${{ contains('Hello world', 'llo') }}
+          echo ${{ startsWith('Hello world', 'He') }}
+          echo ${{ startsWith('Hello world', 'He') }}
+          echo ${{ format('Hello {0} {1} {2}', 'Mona', 'the', 'Octocat') }}
+          echo ${{ join(github.event.issue.labels.*.name, ', ') }}
           
   context-workflow:
     runs-on: ubuntu-latest
