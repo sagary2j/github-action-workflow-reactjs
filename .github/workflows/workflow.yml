@@ -1,0 +1,27 @@
+---
+name: "workflow"
+
+'on':
+  push:
+    branches:
+      - main-workflow
+    tags:
+      - "*"
+  pull_request:
+    branches:
+      - main-workflow
+
+jobs:
+  ci:
+    name: "Integration"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout Code"
+        uses: "actions/checkout@v1"
+
+      - name: "Lint code"
+        run: |
+          echo "Linting repository"
+      - name: "Run unit tests"
+        run: |
+          echo "Running unit tests"
