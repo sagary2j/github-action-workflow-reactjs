@@ -102,7 +102,6 @@ jobs:
           docker build -t app-registry .
           docker tag app-registry:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          #echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"  
   cd:
     name: "Deployment"
     runs-on: "ubuntu-latest"
