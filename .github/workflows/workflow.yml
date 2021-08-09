@@ -77,30 +77,30 @@ jobs:
           tf_actions_subcommand: 'plan'
           tf_actions_working_dir: 'terraform'
 
-      - name: 'Terraform Apply'
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.0
-          tf_actions_subcommand: 'apply'
-          tf_actions_working_dir: 'terraform'
-          args: '-auto-approve -input=false'
+      # - name: 'Terraform Apply'
+      #   uses: hashicorp/terraform-github-actions@master
+      #   with:
+      #     tf_actions_version: 0.14.0
+      #     tf_actions_subcommand: 'apply'
+      #     tf_actions_working_dir: 'terraform'
+      #     args: '-auto-approve -input=false'
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+      # - name: Login to Amazon ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-        run: |
-          echo "ECR_REGISTRY: $ECR_REGISTRY"
-          echo "ECR_REPOSITORY: $ECR_REPOSITORY"
-          echo "IMAGE_TAG: $IMAGE_TAG"
-          docker build -t app-registry .
-          docker tag app-registry:latest $ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_RUN_ID}
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_RUN_ID}
+      # - name: Build, tag, and push image to Amazon ECR
+      #   id: build-image
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+      #   run: |
+      #     echo "ECR_REGISTRY: $ECR_REGISTRY"
+      #     echo "ECR_REPOSITORY: $ECR_REPOSITORY"
+      #     echo "IMAGE_TAG: $IMAGE_TAG"
+      #     docker build -t app-registry .
+      #     docker tag app-registry:latest $ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_RUN_ID}
+      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_RUN_ID}
   cd:
     name: "Deployment"
     runs-on: "ubuntu-latest"

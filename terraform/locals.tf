@@ -23,7 +23,6 @@ locals {
   lb = merge(local.lb_defaults, var.lb_values)
 
   vpc_defaults = {
-    id                 = "vpc-ef26d387"
     availability_zones = ["${local.region}a", "${local.region}b", "${local.region}c"]
   }
   vpc = merge(local.vpc_defaults, var.vpc_values)
