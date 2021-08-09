@@ -10,4 +10,6 @@ terraform {
 # Configure the AWS Provider
 provider "aws" {
   region = local.region
+  shared_credentials_file = "%USERPROFILE%/.aws/credentials"
+  profile                 = "terraformuser"
 }

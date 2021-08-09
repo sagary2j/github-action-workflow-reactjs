@@ -4,7 +4,7 @@ output "aws_region" {
 }
 
 output "app_url" {
-  value       = aws_lb.alb.dns_name
+  value       = aws_alb.alb.dns_name
   description = "The public ALB DNS"
 }
 

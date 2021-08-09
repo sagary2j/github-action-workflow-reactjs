@@ -34,3 +34,12 @@ variable "container" {
   description = "Container configuration to deploy"
 }
 
+variable "health_check_path" {
+  default = "/"
+}
+
+variable "availability_zone" {
+  description = "availability zone to create subnet"
+  type = list
+  default = ["us-east-1a","us-east-1b","us-east-1c"]
+}

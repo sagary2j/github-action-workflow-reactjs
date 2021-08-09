@@ -40,12 +40,13 @@ resource "aws_ecs_service" "service" {
   desired_count   = 1
 
   network_configuration {
-    subnets          = [for s in data.aws_subnet.subnets : s.id]
+    security_groups  = [aws_security_group.ecs_tasks.id]
+    subnets          = aws_subnet.subnet_public.*.id
     assign_public_ip = true
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.group.arn
+    target_group_arn = aws_alb_target_group.group.arn
     container_name   = local.container.name
     container_port   = 80
   }
