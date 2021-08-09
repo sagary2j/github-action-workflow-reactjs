@@ -15,9 +15,6 @@ jobs:
   ci:
     name: "CI Integration"
     runs-on: "ubuntu-latest"
-    # strategy:
-    #   matrix:
-    #     node-version: [14.x]
     steps:
       - name: "Checkout Code"
         uses: "actions/checkout@v2"
