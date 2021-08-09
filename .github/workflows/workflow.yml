@@ -2,17 +2,17 @@
 name: "workflow"
 
 on:
-  pull_request_review:
+  # pull_request_review:
     
 
-  # push:
-  #   branches:
-  #     - main-workflow
-  #   tags:
-  #     - "*"
-  # pull_request:
-  #   branches:
-  #     - main-workflow
+  push:
+    branches:
+      - main-workflow
+    tags:
+      - "*"
+  pull_request:
+    branches:
+      - main-workflow
 
 jobs:
   ci:
@@ -104,19 +104,24 @@ jobs:
           docker build -t app-registry .
           docker tag app-registry:latest $ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_RUN_ID}
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_RUN_ID}
-  cd:
-    name: "Deployment"
-    runs-on: "ubuntu-latest"
-    needs:
-      - ci
-      - terraform-action
-    steps:
-      - name: "Checkout Code"
-        uses: "actions/checkout@v2"
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition service \
+          --query taskDefinition > task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}      
+          task-definition: task-definition.json
+          container-name: application
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ secrets.ECS_SERVICE }}
+          cluster: ${{ secrets.ECS_CLUSTER }}
+          wait-for-service-stability: true
