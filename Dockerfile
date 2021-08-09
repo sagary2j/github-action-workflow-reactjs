@@ -2,7 +2,7 @@
 FROM node:14.2.0-alpine3.11 as react-build
 WORKDIR /app
 COPY . ./
-RUN yarn, yarn build
+RUN yarn install, yarn build
 
 # Stage 2 - the production environment
 FROM nginx:alpine
