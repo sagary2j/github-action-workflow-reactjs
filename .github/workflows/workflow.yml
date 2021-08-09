@@ -1,15 +1,18 @@
 ---
 name: "workflow"
 
-'on':
-  push:
-    branches:
-      - main-workflow
-    tags:
-      - "*"
-  pull_request:
-    branches:
-      - main-workflow
+on:
+  pull_request_review:
+    
+
+  # push:
+  #   branches:
+  #     - main-workflow
+  #   tags:
+  #     - "*"
+  # pull_request:
+  #   branches:
+  #     - main-workflow
 
 jobs:
   ci:
