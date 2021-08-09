@@ -1,8 +1,10 @@
 # Stage 1
 FROM node:14.2.0-alpine3.11 as react-build
 WORKDIR /app
+COPY package.json yarn.lock ./
+RUN yarn
 COPY . ./
-RUN npm ci --only=production, yarn build
+RUN yarn build
 
 # Stage 2 - the production environment
 FROM nginx:alpine
