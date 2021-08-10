@@ -68,7 +68,7 @@ jobs:
           TF_WORKSPACE: dev
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: 'Terraform Validate'
+      - name: 'Terraform Validates'
         uses: hashicorp/terraform-github-actions@master
         with:
           tf_actions_version: 0.14.0
