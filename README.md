@@ -2,69 +2,40 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## To run this project locally
+To Install dependancies, Run:
+### `yarn` or `yarn install` 
 
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
+To Build, you can run:
 ### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To Run hadolint on dockerfile, Run:
+### `docker run --rm -i hadolint/hadolint < Dockerfile`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To Run project locally, Run:
+### `docker run --rm -d --name react-js-app -p 8000:80 react-docker:latest`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Core components
 
-### `yarn eject`
+### AWS
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The AWS infrastructure is setup using terraform in the [`./terraform`](./terraform).
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The following components are deployed:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Application Load Balancer ([`./lb.tf`](./terraform/lb.tf))
+- ECS Cluster / ECS Service ([`./ecs.tf`](./terraform/ecs.tf))
+- Elastic Container Registry ([`./ecr.tf`](./terraform/ecr.tf))
+- IAM permissions ([`./iam.tf`](./terraform/iam.tf))
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### CI/CD
 
-## Learn More
+The repository leverages the [AWS Github Actions](https://github.com/aws-actions/)
+maintained by AWS.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The main goal is to provide an example configuration of the following workflow:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Run the integration tests
+- Build the Docker image
+- Publish it to a private ECR
+- Update the corresponding ECS Service (by editing the task image)

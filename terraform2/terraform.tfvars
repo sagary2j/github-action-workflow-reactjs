@@ -1,3 +1,0 @@
-container = {
-  image = "devopstask/wovenplanet"
-}
