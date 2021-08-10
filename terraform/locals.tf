@@ -5,6 +5,7 @@ locals {
   }
   ecr = merge(local.ecr_defaults, var.ecr_values)
 
+
   ecs_defaults = {
     cluster_name = "ecs-cluster"
     service_name = "ecs-service"
