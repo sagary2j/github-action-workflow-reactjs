@@ -41,7 +41,7 @@ resource "aws_main_route_table_association" "aws-route-table-association" {
 
 resource "aws_security_group" "lb" {
   name = "sg_22"
-  vpc_id = "${aws_vpc.vpc.id}"
+  vpc_id = aws_vpc.vpc.id
 
   # SSH access from the VPC
   ingress {
