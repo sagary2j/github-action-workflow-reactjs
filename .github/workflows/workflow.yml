@@ -39,8 +39,8 @@ jobs:
         with:
           dockerfile: "Dockerfile"
 
-  Deployment:
-    name: 'Terraform-Workflow'
+  Terraform-Workflow:
+    name: 'Deployment'
     runs-on: ubuntu-latest
     needs:
       - integration
