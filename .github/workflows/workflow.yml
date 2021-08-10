@@ -111,14 +111,15 @@ jobs:
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           #docker push $ECR_REGISTRY/$ECR_REPOSITORY:${GITHUB_RUN_ID}
 
-      # - name: Download task definition
-      #   run: |
-      #     aws ecs describe-task-definition --task-definition service \
-      #     --query taskDefinition > task-definition.json
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition my-task-definition-family --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition service \
+          --query taskDefinition > task-definition.json
           cat ./task-definition.json
+      # - name: Download task definition
+      #   run: |
+      #     aws ecs describe-task-definition --task-definition my-task-definition-family --query taskDefinition > task-definition.json
+      #     cat ./task-definition.json
 
       # - name: Fill in the new image ID in the Amazon ECS task definition
       #   id: task-def
