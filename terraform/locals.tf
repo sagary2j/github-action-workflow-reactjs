@@ -29,7 +29,7 @@ locals {
   vpc = merge(local.vpc_defaults, var.vpc_values)
 
   container_defaults = {
-    name  = "application"
+    name  = "myreactapp"
     image = "particule/helloworld"
     ports = [80]
   }
