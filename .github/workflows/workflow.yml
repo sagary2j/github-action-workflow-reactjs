@@ -62,7 +62,7 @@ jobs:
         with:
           tf_actions_version: 0.14.0
           tf_actions_subcommand: 'init'
-          tf_actions_working_dir: 'terraform2'
+          tf_actions_working_dir: 'terraform'
           tf_actions_comment: true
         env:
           TF_WORKSPACE: dev
@@ -73,21 +73,21 @@ jobs:
         with:
           tf_actions_version: 0.14.0
           tf_actions_subcommand: 'validate'
-          tf_actions_working_dir: 'terraform2'
+          tf_actions_working_dir: 'terraform'
       
       - name: 'Terraform Plan'
         uses: hashicorp/terraform-github-actions@master
         with:
           tf_actions_version: 0.14.0
           tf_actions_subcommand: 'plan'
-          tf_actions_working_dir: 'terraform2'
+          tf_actions_working_dir: 'terraform'
 
       - name: 'Terraform Apply'
         uses: hashicorp/terraform-github-actions@master
         with:
           tf_actions_version: 0.14.0
           tf_actions_subcommand: 'apply'
-          tf_actions_working_dir: 'terraform2'
+          tf_actions_working_dir: 'terraform'
           args: '-auto-approve -input=false'
 
       - name: Login to Amazon ECR
@@ -109,23 +109,19 @@ jobs:
         run: |
           aws ecs describe-task-definition --task-definition service \
           --query taskDefinition > task-definition.json
-      # - name: Download task definition
-      #   run: |
-      #     aws ecs describe-task-definition --task-definition my-task-definition-family --query taskDefinition > task-definition.json
-      #     cat ./task-definition.json
 
-      # - name: Fill in the new image ID in the Amazon ECS task definition
-      #   id: task-def
-      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
-      #   with:
-      #     task-definition: task-definition.json
-      #     container-name: application
-      #     image: ${{ steps.build-image.outputs.image }}
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: application
+          image: ${{ steps.build-image.outputs.image }}
 
-      # - name: Deploy to Amazon ECS service
-      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      #   with:
-      #     task-definition: ${{ steps.task-def.outputs.task-definition }}
-      #     service: ${{ secrets.ECS_SERVICE }}
-      #     cluster: ${{ secrets.ECS_CLUSTER }}
-      #     wait-for-service-stability: true
+      - name: Deploy to Amazon ECS service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ secrets.ECS_SERVICE }}
+          cluster: ${{ secrets.ECS_CLUSTER }}
+          wait-for-service-stability: true
