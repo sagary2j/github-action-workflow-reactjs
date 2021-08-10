@@ -15,7 +15,7 @@ on:
       - main-workflow
 
 jobs:
-  ci:
+  integration:
     name: "CI Integration"
     runs-on: "ubuntu-latest"
     steps:
@@ -41,7 +41,7 @@ jobs:
         with:
           dockerfile: "Dockerfile"
 
-  terraform-action:
+  Deployment:
     name: 'Terraform-Workflow'
     runs-on: ubuntu-latest
     needs:

@@ -25,8 +25,8 @@ resource "aws_ecs_task_definition" "task" {
       portMappings = [
         for port in local.container.ports :
         {
-          containerPort = port
-          hostPort      = port
+          containerPort = 80
+          hostPort      = 80
         }
       ]
     }

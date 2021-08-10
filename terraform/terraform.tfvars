@@ -1,3 +1,3 @@
 container = {
-  image = "devopstask/wovenplanet"
+  image = "particule/helloworld"
 }
