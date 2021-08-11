@@ -6,6 +6,27 @@ resource "aws_iam_user" "publisher" {
 resource "aws_iam_role" "fargate" {
   name = "fargate-role"
   path = "/serviceaccounts/"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = [
+            "ecs.amazonaws.com",
+            "ecs-tasks.amazonaws.com"
+          ]
+        }
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role" "ecs_task_role" {
+  name = "ecsTaskRole"
+
   assume_role_policy = <<EOF
   {
     "Version": "2012-10-17",
@@ -21,26 +42,6 @@ resource "aws_iam_role" "fargate" {
     ]
   }
   EOF
-}
-
-resource "aws_iam_role" "ecs_task_role" {
-  name = "ecsTaskRole"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ecs-tasks.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
 }
 
 
