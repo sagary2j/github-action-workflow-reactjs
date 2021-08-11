@@ -40,23 +40,21 @@ resource "aws_main_route_table_association" "aws-route-table-association" {
 
 
 resource "aws_security_group" "lb" {
-  name = "sg_22"
+  name = "sg_http_https"
   vpc_id = aws_vpc.vpc.id
 
-  # SSH access from the VPC
-  ingress {
-      from_port   = 22
-      to_port     = 22
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+ingress {
+   protocol         = "tcp"
+   from_port        = 80
+   to_port          = 80
+   cidr_blocks      = ["0.0.0.0/0"]
   }
-
-
+ 
   ingress {
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+   protocol         = "tcp"
+   from_port        = 443
+   to_port          = 443
+   cidr_blocks      = ["0.0.0.0/0"]
   }
 
   egress {
@@ -78,7 +76,7 @@ resource "aws_security_group" "ecs_tasks" {
     protocol        = "tcp"
     from_port       = 80
     to_port         = 80
-    security_groups = [aws_security_group.lb.id]
+    cidr_blocks      = ["0.0.0.0/0"]
   }
 
   egress {
