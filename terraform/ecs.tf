@@ -37,6 +37,8 @@ resource "aws_ecs_service" "service" {
   name            = local.ecs.service_name
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.task.arn
+  force_new_deployment = true
+
   desired_count   = 1
 
   network_configuration {
